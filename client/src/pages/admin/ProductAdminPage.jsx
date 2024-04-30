@@ -20,7 +20,7 @@ const ProductAdminPage = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:5555/api/products');
+            const response = await axios.get(`${import.meta.env.VITE_SERVER}/api/products`);
             setProducts(response.data);
         } catch (error) {
             console.error("Error fetching products:", error);
@@ -29,7 +29,7 @@ const ProductAdminPage = () => {
 
     const deleteProduct = async (id) => {
         try {
-            await axios.delete(`http://localhost:5555/api/products/${id}`);
+            await axios.delete(`${import.meta.env.VITE_SERVER}/api/products/${id}`);
             fetchProducts();
         } catch (error) {
             console.error("Error deleting product:", error);
@@ -38,7 +38,7 @@ const ProductAdminPage = () => {
 
     const updateProduct = async () => {
         try {
-            await axios.patch(`http://localhost:5555/api/products/${editProduct._id}`, editProduct);
+            await axios.patch(`${import.meta.env.VITE_SERVER}/api/products/${editProduct._id}`, editProduct);
             setEditProduct(null);
             fetchProducts();
         } catch (error) {
@@ -48,7 +48,7 @@ const ProductAdminPage = () => {
 
     const createProduct = async () => {
         try {
-            await axios.post('http://localhost:5555/api/products', newProduct);
+            await axios.post(`${import.meta.env.VITE_SERVER}/api/products`, newProduct);
             setNewProduct({
                 name: '',
                 description: '',

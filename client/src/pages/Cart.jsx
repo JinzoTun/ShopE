@@ -17,7 +17,7 @@ const Cart = () => {
 
   const placeOrder = () => {
     const orderData = { ...orderInfo, total, cartItems: cartItems };
-    axios.post('http://localhost:5555/api/orders', orderData)
+    axios.post(`${import.meta.env.VITE_SERVER}/api/orders`, orderData)
       .then(() => {
         clearCart();
         alert('Order placed successfully!');
