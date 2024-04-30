@@ -31,7 +31,7 @@ const OrdersPage = () => {
 
     return (
         <div className="container mx-auto p-6">
-            <h1 className="text-5xl mb-10 mt-20 mb-4">Orders</h1>
+            <h1 className="text-5xl mb-10 mt-20">Orders</h1>
             <div className="grid gap-6 lg:grid-cols-2">
                 {orders.map(order => (
                     <div key={order._id} className="bg-white shadow-md rounded-lg overflow-hidden">

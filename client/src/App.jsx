@@ -6,9 +6,16 @@ import Contact from './pages/Home/Contact';
 import Cart from './pages/Home/Cart';
 import NotFound from './pages/NotFound';
 
+
 //admin pages
 import OrdersPage from './pages/admin/OrdersPage';
 import ProductAdminPage from './pages/admin/ProductAdminPage';
+
+// auth pages
+import Login from './pages/Auth/Login';
+import Register from './pages/Auth/Register';
+import Profile from './pages/Auth/Profile';
+
 
 
 // components
@@ -29,6 +36,9 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/admin" element={<ProductAdminPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
       </BrowserRouter>
