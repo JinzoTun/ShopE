@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import productsRoutes from './routes/products.routes.js';
 import ordersRoutes from './routes/orders.routes.js';
-import cartRoutes from './routes/cart.routes.js';
+import userRoutes from './routes/user.routes.js';
 
 
 dotenv.config();
@@ -22,9 +22,11 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
+
+app.use('/api/users', userRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/orders', ordersRoutes);
-app.use('/api/cart', cartRoutes);
+
 app.use('*', (req, res) => {
     res.status(404).json({ error: 'Not found' });
 });
