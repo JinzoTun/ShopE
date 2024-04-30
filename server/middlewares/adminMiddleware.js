@@ -5,7 +5,7 @@ import User from '../models/user.js';
 export const adminMiddleware = async (req, res, next) => {
     try {
         // Get token from request headers
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.headers.jwt;
 
         // Verify token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
