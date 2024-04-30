@@ -18,7 +18,7 @@ const Shop = () => {
   };
 
   return (
-    <div className='p-8 min-h-screen w-full'>
+    <div className='p-6 min-h-screen w-full'>
       <div className='mt-14'>
         <h1 className='text-5xl mb-6'>Shop</h1>
 

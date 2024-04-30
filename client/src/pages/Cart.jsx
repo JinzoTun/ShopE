@@ -29,12 +29,12 @@ const Cart = () => {
   };
 
   return (
-    <div className="container mx-auto w-full min-h-screen py-8 flex">
-      <div className="w-3/4">
-        <h1 className="text-4xl  mb-8 mt-20">Shopping Cart</h1>
+    <div className="container mx-auto w-full min-h-screen py-8 px-6 flex flex-col lg:flex-row">
+      <div className="w-full lg:w-3/4 mb-8 lg:mb-0">
+        <h1 className="text-4xl mb-8 mt-20">Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <div className="flex flex-col items-center">
-            <img src={emptyCartImg} alt="Empty Cart" className="mb-4 rounded-lg" width={350}  />
+            <img src={emptyCartImg} alt="Empty Cart" className="mb-4 rounded-lg" width={350} />
             <p className="text-lg mb-4">Your cart is feeling lonely...</p>
             <p className="text-lg mb-8">Why not fill it up with something amazing?</p>
             <Link to='/shop'>
@@ -46,7 +46,7 @@ const Cart = () => {
         ) : (
           <ul className="divide-y divide-gray-200">
             {cartItems.map((item) => (
-              <li key={item.product} className="py-4 flex items-center justify-between">
+              <li key={item.product} className="py-4 flex flex-col lg:flex-row items-center justify-between">
                 <div className="flex items-center">
                   <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded" />
                   <div className="ml-4">
@@ -56,7 +56,7 @@ const Cart = () => {
                 </div>
                 <button
                   onClick={() => removeItemFromCart(item.product)}
-                  className="text-red-600 hover:text-red-800 focus:outline-none"
+                  className="text-red-600 hover:text-red-800 focus:outline-none mt-4 lg:mt-0 lg:ml-4"
                 >
                   Remove
                 </button>
@@ -65,8 +65,8 @@ const Cart = () => {
           </ul>
         )}
       </div>
-      <div className="w-1/4 ml-8">
-        <div className="sticky top-32  w-full"> {/* Stick order details section to top after scrolling */}
+      <div className="w-full lg:w-1/4">
+        <div className="sticky top-32 w-full">
           <h2 className="text-xl font-semibold mb-4 ">Order Details</h2>
           <div className="flex flex-col">
             <div className="mb-4">
@@ -76,7 +76,7 @@ const Cart = () => {
                 value={orderInfo.name}
                 onChange={handleInputChange}
                 placeholder="Name"
-                className=" w-full my-2 px-4 py-2 border rounded"
+                className="w-full my-2 px-4 py-2 border rounded"
               />
               <input
                 type="email"
@@ -84,7 +84,7 @@ const Cart = () => {
                 value={orderInfo.email}
                 onChange={handleInputChange}
                 placeholder="Email"
-                className="my-2 px-4 py-2 border rounded  w-full"
+                className="my-2 px-4 py-2 border rounded w-full"
               />
               <input
                 type="text"
@@ -92,11 +92,11 @@ const Cart = () => {
                 value={orderInfo.address}
                 onChange={handleInputChange}
                 placeholder="Address"
-                className="my-2 px-4 py-2 border rounded  w-full"
+                className="my-2 px-4 py-2 border rounded w-full"
               />
             </div>
             <div>
-              <div className="text-lg font-semibold  p-4">Total: ${total.toFixed(2)}</div>
+              <div className="text-lg font-semibold p-4">Total: ${total.toFixed(2)}</div>
               <button
                 onClick={placeOrder}
                 className="bg-green-500 text-white px-4 py-2 m-4 rounded hover:bg-green-600 focus:outline-none mt-4"
@@ -115,7 +115,6 @@ const Cart = () => {
       </div>
     </div>
   );
-  
 };
 
 export default Cart;
