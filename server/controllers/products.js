@@ -1,5 +1,5 @@
-import mongoose, { mongo } from 'mongoose';
 import Product from '../models/product.js';
+import mongoose from 'mongoose';
 
 export const getProducts = async (req, res) => {
     try {
@@ -53,7 +53,7 @@ export const updateProduct = async (req, res) => {
         return res.status(404).send('Product not found');
     }
     else {
-        res.status(200).json(product);
+        res.status(200).json({ message: 'Product updated successfully' });
     }
 }
 
@@ -62,7 +62,7 @@ export const deleteProduct = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).send('No product with that id');
     }
-    const product = await Product.findByIdAndRemove(id);
+    const product = await Product.findByIdAndDelete(id);
     if (!product) {
         return res.status(404).send('Product not found');
     }

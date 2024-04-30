@@ -1,12 +1,31 @@
-
+import Hero  from "../components/Hero";
+import ProductCard from "../components/ProductCard";
 
 const Home = () => {
   return (
-    <div className='flex justify-center items-center h-screen bg-gray-100'>
-      <h1 className='text-6xl'>Home</h1>
-    </div>
-    
-  )
-}
+    <div className="pt-16 bg-gray-100 min-h-screen">
+      <Hero />
+      <div className="container mx-auto py-12">
+        
+        <h2 className="text-3xl font-semibold mb-6">New Collection</h2>
+        <div className="p-6  w-full">
+          <ProductCard searchQuery="" filterOption="Hoodies"/>
 
-export default Home
+        </div>
+        <h2 className="text-3xl font-semibold mb-6">Winter Collection</h2>
+        <div className="p-6  w-full">
+          <ProductCard searchQuery="" filterOption="Pants"/>
+
+        </div>
+
+        <h2 className="text-3xl font-semibold mb-6">Best Seller</h2>
+        <div className="p-6  w-full">
+          <ProductCard searchQuery="" filterOption="T-Shirts"/>
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Home;

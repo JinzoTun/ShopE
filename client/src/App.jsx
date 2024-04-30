@@ -5,13 +5,20 @@ import Shop from './pages/Shop';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import NotFound from './pages/NotFound';
+
+//admin pages
+import OrdersPage from './pages/admin/OrdersPage';
+import ProductAdminPage from './pages/admin/ProductAdminPage';
+
+
 // components
 import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 
 
 export default function App() {
   return (
-    <div className=' poppins-regular '>
+    <div className=' font-poppins bg-gray-100'>
       <BrowserRouter>
         <NavBar />
         <Routes>
@@ -20,7 +27,10 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/admin" element={<ProductAdminPage />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   )
