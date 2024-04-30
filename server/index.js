@@ -19,7 +19,9 @@ app.use((req, res, next) => {
     console.log(req.method, req.path);
     next();
 });
-
+app.get('/', (req, res) => {
+    res.send('Hello World');
+});
 app.use('/api/products', productsRoutes);
 app.use('/api/orders', ordersRoutes);
 app.use('/api/cart', cartRoutes);
