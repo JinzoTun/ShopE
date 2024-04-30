@@ -9,6 +9,7 @@ const Hero = () => {
         backgroundImage: "url('/hero.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
+        loading: 'lazy'
       }}
     >
       <h1 className="text-6xl font-bold mb-4">Special <span className="bg-blue-500 rounded p-1">Collection</span></h1>
