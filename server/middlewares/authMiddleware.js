@@ -1,30 +1,29 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/user.js';
 
-// Middleware to authenticate regular users using JWT token
-export const authMiddleware = async (req, res, next) => {
+const requireAuth = async (req, res, next) => {
+    // get token from get req headers 
+    const token = req.headers.jwt;
+
+
+    const JWT_SECRET = process.env.JWT_SECRET;
     try {
-        // Get token from request headers
-        const token = req.headers.jwt;
-
-        // Verify token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        // Fetch user from database based on decoded token
-        const user = await User.findById(decoded.id).select('-password');
-
-        // Check if user exists
-        if (!user) {
-            return res.status(401).json({ message: 'Unauthorized' });
+        if (!JWT_SECRET) {
+            throw new Error("JWT_SECRET environment variable is not set.");
         }
 
-        // Attach user object to request for further use
-        req.user = user;
+        if (!token) {
+            throw new Error("No JWT token found in cookies.");
+        }
 
-        // Proceed to next middleware or route handler
+        const decodedToken = jwt.verify(token, JWT_SECRET);
+        console.log("Decoded token:", decodedToken);
+        req.user = decodedToken; // Store the decoded token in request for future use
         next();
     } catch (error) {
-        console.error('Error authenticating user:', error);
-        res.status(401).json({ message: 'Unauthorized' });
+        console.error("Authentication error:", error.message);
+        res.status(401).json({ isAuthenticated: false, error: error.message });
+
     }
 };
+
+export default requireAuth;

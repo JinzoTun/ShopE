@@ -7,9 +7,9 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchProfile = async (id) => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_SERVER}/api/users/profile`);
+        const response = await axios.get(`${import.meta.env.VITE_SERVER}/api/users/${id}`);
         setUser(response.data);
       } catch (error) {
         console.error('Error fetching profile:', error);
