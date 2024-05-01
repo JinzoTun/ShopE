@@ -28,8 +28,17 @@ const ProductAdminPage = () => {
     };
 
     const deleteProduct = async (id) => {
+        const token = document.cookie.replace(
+            /(?:(?:^|.*;\s*)jwt\s*=\s*([^;]*).*$)|^.*$/,
+            "$1"
+          );
         try {
-            await axios.delete(`${import.meta.env.VITE_SERVER}/api/products/${id}`);
+            await axios.delete(`${import.meta.env.VITE_SERVER}/api/products/${id}`,
+            {
+                headers: {
+                  jwt: token, // Include the token in the 'jwt' header
+                },
+              });
             fetchProducts();
         } catch (error) {
             console.error("Error deleting product:", error);
@@ -37,8 +46,20 @@ const ProductAdminPage = () => {
     };
 
     const updateProduct = async () => {
+        const token = document.cookie.replace(
+            /(?:(?:^|.*;\s*)jwt\s*=\s*([^;]*).*$)|^.*$/,
+            "$1"
+        );
         try {
-            await axios.patch(`${import.meta.env.VITE_SERVER}/api/products/${editProduct._id}`, editProduct);
+            await axios.patch(
+                `${import.meta.env.VITE_SERVER}/api/products/${editProduct._id}`,
+                editProduct, // Add the payload data
+                {
+                    headers: {
+                        jwt: token, // Include the token in the 'jwt' header
+                    },
+                }
+            );
             setEditProduct(null);
             fetchProducts();
         } catch (error) {
@@ -47,8 +68,20 @@ const ProductAdminPage = () => {
     };
 
     const createProduct = async () => {
+        const token = document.cookie.replace(
+            /(?:(?:^|.*;\s*)jwt\s*=\s*([^;]*).*$)|^.*$/,
+            "$1"
+        );
         try {
-            await axios.post(`${import.meta.env.VITE_SERVER}/api/products`, newProduct);
+            await axios.post(
+                `${import.meta.env.VITE_SERVER}/api/products`,
+                newProduct, // Add the product data as the second argument
+                {
+                    headers: {
+                        jwt: token, // Include the token in the 'jwt' header
+                    },
+                }
+            );
             setNewProduct({
                 name: '',
                 description: '',
@@ -61,6 +94,7 @@ const ProductAdminPage = () => {
             console.error("Error creating product:", error);
         }
     };
+    
 
     const cancelEdit = () => {
         setEditProduct(null);

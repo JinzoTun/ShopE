@@ -30,7 +30,7 @@ const Cart = () => {
 
   return (
     <div className="container mx-auto w-full min-h-screen py-8 px-6 flex flex-col lg:flex-row">
-      <div className="w-full lg:w-3/4 mb-8 lg:mb-0">
+      <div className="w-full lg:w-3/4 lg:pr-20 mb-8 lg:mb-0">
         <h1 className="text-4xl mb-8 mt-20">Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <div className="flex flex-col items-center">
@@ -44,9 +44,9 @@ const Cart = () => {
             </Link>
           </div>
         ) : (
-          <ul className="divide-y divide-gray-200">
+          <ul className="divide-y divide-gray-200 ">
             {cartItems.map((item) => (
-              <li key={item.product} className="py-4 flex flex-col lg:flex-row items-center justify-between">
+              <li key={item.product} className="p-4 flex flex-col lg:flex-row items-center justify-between">
                 <div className="flex items-center">
                   <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded" />
                   <div className="ml-4">
@@ -66,7 +66,7 @@ const Cart = () => {
         )}
       </div>
       <div className="w-full lg:w-1/4">
-        <div className="sticky top-32 w-full">
+        <div className=" lg:mt-36 w-full">
           <h2 className="text-xl font-semibold mb-4 ">Order Details</h2>
           <div className="flex flex-col">
             <div className="mb-4">
@@ -97,6 +97,7 @@ const Cart = () => {
             </div>
             <div>
               <div className="text-lg font-semibold p-4">Total: ${total.toFixed(2)}</div>
+              <div className='flex justify-between'> 
               <button
                 onClick={placeOrder}
                 className="bg-green-500 text-white px-4 py-2 m-4 rounded hover:bg-green-600 focus:outline-none mt-4"
@@ -109,6 +110,8 @@ const Cart = () => {
               >
                 Clear Cart
               </button>
+              </div>
+              
             </div>
           </div>
         </div>

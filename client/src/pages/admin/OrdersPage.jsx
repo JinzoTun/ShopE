@@ -8,9 +8,20 @@ const OrdersPage = () => {
         fetchOrders();
     }, []);
 
+
     const fetchOrders = async () => {
+
         try {
-            const response = await axios.get(`${import.meta.env.VITE_SERVER}/api/orders`);
+            const token = document.cookie.replace(
+                /(?:(?:^|.*;\s*)jwt\s*=\s*([^;]*).*$)|^.*$/,
+                "$1"
+              );
+            
+            const response = await axios.get(`${import.meta.env.VITE_SERVER}/api/orders`,{
+                headers: {
+                  jwt: token, // Include the token in the 'jwt' header
+                },
+              });
             const sortedOrders = response.data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
             setOrders(sortedOrders);
         } catch (error) {

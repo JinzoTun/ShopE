@@ -12,13 +12,13 @@ const Home = () => {
           <ProductCard searchQuery="" filterOption="Hoodies"/>
 
         </div>
-        <h2 className="text-3xl font-semibold mb-6">Winter Collection</h2>
+        <h2 className="text-3xl font-semibold my-6">Winter Collection</h2>
         <div className="  w-full">
           <ProductCard searchQuery="" filterOption="Pants"/>
 
         </div>
 
-        <h2 className="text-3xl font-semibold mb-6">Best Seller</h2>
+        <h2 className="text-3xl font-semibold my-6">Best Seller</h2>
         <div className="  w-full">
           <ProductCard searchQuery="" filterOption="T-Shirts"/>
 
