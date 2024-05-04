@@ -8,14 +8,22 @@ const requireAdmin = async (req, res, next) => {
     }
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        if (decoded.isAdmin !== true) {
-            return res.status(403).json({ message: 'Access denied. You are not an admin.', decoded });
+        if (!decoded) {
+            return res.status(401).json({ message: 'Invalid token.', isAdmin: false });
+        }
+        if (!decoded.isAdmin) {
+            return res.status(401).json({ message: 'Admin access required.', isAdmin: false });
         }
         req.user = decoded;
-        next();
+
+        return res.status(200).json({ isAuthenticated: true, isAdmin: decoded.isAdmin, });
+
     } catch (error) {
-        return res.status(401).json({ message: 'Invalid token.' });
+        console.error("Error verifying token:", error.message);
+        return res.status(401).json({ message: 'Invalid token.', isAdmin: false });
+
     }
+
 }
 
 export default requireAdmin;

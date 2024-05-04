@@ -41,7 +41,7 @@ const OrdersPage = () => {
     };
 
     return (
-        <div className="container mx-auto p-6">
+        <div className="container mx-auto p-6 min-h-screen">
             <h1 className="text-5xl mb-10 mt-20">Orders</h1>
             <div className="grid gap-6 lg:grid-cols-2">
                 {orders.map(order => (

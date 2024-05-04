@@ -16,9 +16,13 @@ const requireAuth = async (req, res, next) => {
         }
 
         const decodedToken = jwt.verify(token, JWT_SECRET);
+        if (!decodedToken) {
+            throw new Error("No user found in decoded token.");
+        }
         console.log("Decoded token:", decodedToken);
-        req.user = decodedToken; // Store the decoded token in request for future use
-        next();
+        req.user = decodedToken;
+        res.status(200).json({ isAuthenticated: true, isAdmin: decodedToken.isAdmin, user: decodedToken });
+
     } catch (error) {
         console.error("Authentication error:", error.message);
         res.status(401).json({ isAuthenticated: false, error: error.message });

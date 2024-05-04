@@ -23,4 +23,5 @@ router.patch('/:id', requireAuth, updateUser);
 // Route for deleting user
 router.delete('/:id', requireAdmin, deleteUser);
 
+
 export default router;
