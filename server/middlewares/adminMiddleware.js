@@ -16,7 +16,7 @@ const requireAdmin = async (req, res, next) => {
         }
         req.user = decoded;
 
-        return res.status(200).json({ isAuthenticated: true, isAdmin: decoded.isAdmin, });
+        return res.status(200).json({ isAuthenticated: true, isAdmin: decoded.isAdmin, user: decoded });
 
     } catch (error) {
         console.error("Error verifying token:", error.message);
