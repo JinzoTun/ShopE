@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import PrivateRoute from './pages/PrivateRoute';
+import useAuth from './hooks/useAuth';
 // pages 
 import Home from './pages/Home/Index';
 import Shop from './pages/Home/Shop';
@@ -22,11 +22,14 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 
 export default function App() {
-
+const { isAdmin } = useAuth();
   return (
     <div className=' font-poppins bg-gray-100'>
       <BrowserRouter>
         <NavBar />
+
+
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
@@ -36,8 +39,11 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           {/* Protected routes */}
-          <PrivateRoute path="/orders" element={<OrdersPage />} />
-          <PrivateRoute path="/admin" element={<ProductAdminPage />} />
+          <Route path="/admin/products"  element={ isAdmin ? <ProductAdminPage/>  :<ForbiddenPage  />  } />
+          <Route path="/admin/orders" element={ isAdmin ? <OrdersPage/>  :<ForbiddenPage />  } />
+  
+          
+          
           <Route path="/forbidden" element={<ForbiddenPage />} />
           {/* 404 route */}
           <Route path="*" element={<NotFound />} />

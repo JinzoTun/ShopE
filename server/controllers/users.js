@@ -19,7 +19,7 @@ export const register = async (req, res) => {
         const newUser = new User({ name, email, password: hashedPassword });
         await newUser.save();
 
-        res.status(201).json({ message: 'User created successfully' });
+        res.status(201).json({ message: 'User created successfully', token });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
     }
@@ -49,7 +49,7 @@ export const login = async (req, res) => {
             isAdmin: user.isAdmin,
         }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-        res.status(200).json({ name: user.name, email: user.email, isAdmin: user.isAdmin, userId: user._id, token });
+        res.status(200).json({ message: 'Logged In Successfully ', token });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
     }

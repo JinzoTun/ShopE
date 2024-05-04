@@ -7,15 +7,16 @@ const requireAdmin = async (req, res, next) => {
         return res.status(401).json({ message: 'Access denied. No token provided.' });
     }
     try {
+
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+
         if (!decoded) {
             return res.status(401).json({ message: 'Invalid token.', isAdmin: false });
         }
         if (!decoded.isAdmin) {
-            return res.status(401).json({ message: 'Admin access required.', isAdmin: false });
+            return res.status(401).json({ message: 'Admin access required.', isAdmin: false, user: decoded });
         }
-        req.user = decoded;
-
         return res.status(200).json({ isAuthenticated: true, isAdmin: decoded.isAdmin, user: decoded });
 
     } catch (error) {

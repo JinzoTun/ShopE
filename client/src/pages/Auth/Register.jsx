@@ -15,7 +15,7 @@ const Register = () => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_SERVER}/api/users/register`, { name, email, password });
       console.log(response.data);
-      Cookies.set('token', response.data.token, { expires: 7 });
+      Cookies.set('jwt', response.data.token, { expires: 7 });
       navigate('/shop');
     } catch (error) {
       console.error('Error registering:', error.response.data.error);
