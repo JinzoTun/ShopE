@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import jwt, { decode } from 'jsonwebtoken';
 import User from '../models/user.js';
+import BlackListedToken from '../models/blackListedToken.js';
+
 
 export const register = async (req, res) => {
     try {
@@ -108,5 +110,35 @@ export const deleteUser = async (req, res) => {
     }
 }
 
+export const logout = async (req, res) => {
+    try {
+        const token = req.headers.jwt;
+        if (!token) {
+            return res.status(401).json({ message: 'Access denied. No token provided.' });
+        }
 
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET);
+        } catch (err) {
+            return res.status(401).json({ message: 'Invalid token.', isLoggedIn: false });
+        }
 
+        if (!decoded) {
+            return res.status(401).json({ message: 'User not logged in', isLoggedIn: false });
+        }
+
+        // Try to blacklist the token
+        try {
+            await BlackListedToken.create({ token });
+            return res.status(200).json({ message: 'Logged Out Successfully', isLoggedIn: false });
+        } catch (error) {
+            if (error.code === 11000) { // Duplicate key error
+                return res.status(409).json({ message: 'Token blacklisted', isLoggedIn: false });
+            }
+            throw error; // Re-throw other errors
+        }
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}

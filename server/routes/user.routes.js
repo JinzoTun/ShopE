@@ -1,5 +1,5 @@
 import express from 'express';
-import { register, login, getUserById, getUsers, updateUser, deleteUser } from '../controllers/users.js';
+import { register, login, getUserById, getUsers, updateUser, deleteUser, logout } from '../controllers/users.js';
 import requireAuth from '../middlewares/authMiddleware.js';
 import requireAdmin from '../middlewares/adminMiddleware.js';
 
@@ -10,6 +10,8 @@ router.post('/register', register);
 
 // Route for user login
 router.post('/login', login);
+
+router.get('/logout', logout);
 
 // Route for getting all users
 router.get('/', getUsers);

@@ -1,30 +1,31 @@
 import jwt from 'jsonwebtoken';
+import BlackListedToken from '../models/blackListedToken.js';
 
-const requireAdmin = async (req, res, next) => {
-    // get token from get req headers 
-    const token = req.headers.jwt;
-    if (!token) {
-        return res.status(401).json({ message: 'Access denied. No token provided.' });
-    }
+const requireAdmin = async (req, res) => {
     try {
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-
-        if (!decoded) {
-            return res.status(401).json({ message: 'Invalid token.', isAdmin: false });
+        const token = req.headers.jwt;
+        if (!token) {
+            return res.status(401).json({ message: 'Access denied. No token provided.' });
         }
-        if (!decoded.isAdmin) {
-            return res.status(401).json({ message: 'Admin access required.', isAdmin: false, user: decoded });
+        const blackListedToken = await BlackListedToken.findOne({ token: req.headers.jwt });
+        if (blackListedToken) {
+            return res.status(401).json({ message: 'Access denied. Token blacklisted.' });
         }
-        return res.status(200).json({ isAuthenticated: true, isAdmin: decoded.isAdmin, user: decoded });
+        if (!blackListedToken) {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = decoded;
+            if (req.user.isAdmin === true) {
+                res.status(200).json({ message: 'You are an admin', decoded });
+            }
+        }
 
-    } catch (error) {
-        console.error("Error verifying token:", error.message);
-        return res.status(401).json({ message: 'Invalid token.', isAdmin: false });
-
+        else {
+            res.status(401).json({ message: 'You are not an admin' });
+        }
     }
-
+    catch (error) {
+        return res.status(401).json({ message: error.message });
+    }
 }
 
 export default requireAdmin;

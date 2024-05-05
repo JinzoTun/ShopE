@@ -3,8 +3,11 @@ import { Menu } from "@mui/icons-material";
 import { useState, useRef, useEffect } from "react";
 import { useCart } from "../context/useCart";
 import PropTypes from "prop-types";
+import useAuth from "../hooks/useAuth";
 
 const DropdownMenu = ({ countItems, onClose }) => {
+  const { isLoggedIn } = useAuth(); // Get the isLoggedIn state from the useAuth hook
+
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -37,9 +40,11 @@ const DropdownMenu = ({ countItems, onClose }) => {
           <li className="transition duration-300 ease-in-out hover:bg-gray-100">
             <Link to="/cart" className="block px-4 py-2" onClick={onClose}>Cart ({countItems})</Link>
           </li>
-          <li className="transition duration-300 ease-in-out hover:bg-gray-100">
-            <Link to="/login" className="block px-4 py-2" onClick={onClose}>Login</Link>
-          </li>
+          {!isLoggedIn && (
+            <li className="transition duration-300 ease-in-out hover:bg-gray-100">
+              <Link to="/login" className="block px-4 py-2" onClick={onClose}>Login</Link>
+            </li>
+          )}
         </ul>
       </div>
     </div>

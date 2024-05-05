@@ -1,33 +1,30 @@
 import jwt from 'jsonwebtoken';
+import BlackListedToken from '../models/blackListedToken.js';
 
-const requireAuth = async (req, res, next) => {
-    // get token from get req headers 
-    const token = req.headers.jwt;
-
-
-    const JWT_SECRET = process.env.JWT_SECRET;
+const requireAuth = async (req, res) => {
     try {
-        if (!JWT_SECRET) {
-            throw new Error("JWT_SECRET environment variable is not set.");
-        }
-
+        const token = req.headers.jwt;
         if (!token) {
-            throw new Error("No JWT token found in cookies.");
+            return res.status(401).json({ error: 'No token provided' });
         }
-
-        const decodedToken = jwt.verify(token, JWT_SECRET);
-        if (!decodedToken) {
-            throw new Error("No user found in decoded token.");
+        const blackListedToken = await BlackListedToken.findOne({ token });
+        if (blackListedToken) {
+            return res.status(401).json({ message: 'You are not authorized' });
         }
-        console.log("Decoded token:", decodedToken);
-        req.user = decodedToken;
-        res.status(200).json({ isAuthenticated: true, isAdmin: decodedToken.isAdmin, user: decodedToken });
-
-    } catch (error) {
-        console.error("Authentication error:", error.message);
-        res.status(401).json({ isAuthenticated: false, error: error.message });
-
+        if (!blackListedToken) {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = decoded;
+            if (req.user) {
+                return res.status(200).json({ message: 'You are authenticated', decoded });
+            }
+            else {
+                res.status(401).json({ error: 'You are not authenticated' });
+            }
+        }
     }
-};
+    catch (error) {
+        return res.status(401).json({ message: error.message });
+    }
+}
 
 export default requireAuth;

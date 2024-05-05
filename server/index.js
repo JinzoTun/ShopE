@@ -5,8 +5,7 @@ import cors from 'cors';
 import productsRoutes from './routes/products.routes.js';
 import ordersRoutes from './routes/orders.routes.js';
 import userRoutes from './routes/user.routes.js';
-import requireAuth from './middlewares/authMiddleware.js';
-import requireAdmin from './middlewares/adminMiddleware.js';
+import authRoutes from './routes/auth.routes.js';
 
 dotenv.config();
 
@@ -27,7 +26,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/orders', ordersRoutes);
-app.get('/api/auth', requireAdmin);
+app.use('/api/auth', authRoutes);
 
 app.use('*', (req, res) => {
     res.status(404).json({ error: 'Not found' });
