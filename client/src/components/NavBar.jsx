@@ -2,12 +2,10 @@ import { Link } from "react-router-dom";
 import { Menu } from "@mui/icons-material";
 import { useState, useRef, useEffect } from "react";
 import { useCart } from "../context/useCart";
+import { useAuth } from "../context/useAuth";
 import PropTypes from "prop-types";
-import useAuth from "../hooks/useAuth";
 
 const DropdownMenu = ({ countItems, onClose }) => {
-  const { isLoggedIn } = useAuth(); // Get the isLoggedIn state from the useAuth hook
-
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -40,11 +38,9 @@ const DropdownMenu = ({ countItems, onClose }) => {
           <li className="transition duration-300 ease-in-out hover:bg-gray-100">
             <Link to="/cart" className="block px-4 py-2" onClick={onClose}>Cart ({countItems})</Link>
           </li>
-          {!isLoggedIn && (
-            <li className="transition duration-300 ease-in-out hover:bg-gray-100">
-              <Link to="/login" className="block px-4 py-2" onClick={onClose}>Login</Link>
-            </li>
-          )}
+          <li className="transition duration-300 ease-in-out hover:bg-gray-100">
+            <Link to="/login" className="block px-4 py-2" onClick={onClose}>Login</Link>
+          </li>
         </ul>
       </div>
     </div>
@@ -57,6 +53,7 @@ DropdownMenu.propTypes = {
 };
 
 const NavBar = () => {
+  const { isAdmin, isAuth } = useAuth();
   const { countItems } = useCart();
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
@@ -97,9 +94,18 @@ const NavBar = () => {
         <Link to="/contact" className="p-4 hover:underline underline-offset-8">Contact</Link>
         <Link to="/cart" className="p-4 hover:underline underline-offset-8">Cart ({countItems})</Link>
       </div>
-      <div className="pr-4 md:block hidden">
-        <Link to="/login" className="p-4 hover:underline underline-offset-8">Login</Link>
+      <div className="pr-8 md:block hidden">
+        {isAuth ? (
+          <Link to="/profile" className="p-4 hover:underline underline-offset-8">Profile</Link>
+        ) : (
+          <Link to="/login" className="p-4 hover:underline underline-offset-8">Login</Link>
+        )}
+        {isAdmin && (
+          <Link to="/admin" className="p-4 hover:underline underline-offset-8">Admin</Link>
+        )}
       </div>
+ 
+
     </nav>
   );
 };

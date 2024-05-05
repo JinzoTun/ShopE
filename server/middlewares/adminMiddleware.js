@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import BlackListedToken from '../models/blackListedToken.js';
 
-const requireAdmin = async (req, res) => {
+const requireAdmin = async (req, res, next) => {
     try {
         const token = req.headers.jwt;
         if (!token) {
@@ -11,19 +11,17 @@ const requireAdmin = async (req, res) => {
         if (blackListedToken) {
             return res.status(401).json({ message: 'Access denied. Token blacklisted.' });
         }
-        if (!blackListedToken) {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = decoded;
-            if (req.user.isAdmin === true) {
-                res.status(200).json({ message: 'You are an admin', decoded });
-            }
-        }
 
-        else {
-            res.status(401).json({ message: 'You are not an admin' });
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+
+        if (req.user.isAdmin === true) {
+            // Call next() to proceed to the next middleware or route handler
+            return next();
+        } else {
+            return res.status(401).json({ message: 'You are not an admin' });
         }
-    }
-    catch (error) {
+    } catch (error) {
         return res.status(401).json({ message: error.message });
     }
 }

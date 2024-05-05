@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import useAuth from './hooks/useAuth';
+import {useAuth} from './context/useAuth';
 // pages 
 import Home from './pages/Home/Index';
 import Shop from './pages/Home/Shop';
@@ -8,6 +8,7 @@ import Cart from './pages/Home/Cart';
 import NotFound from './pages/NotFound';
 
 //admin pages
+import AdminPage from './pages/admin/AdminPage';
 import OrdersPage from './pages/admin/OrdersPage';
 import ProductAdminPage from './pages/admin/ProductAdminPage';
 
@@ -27,9 +28,6 @@ const { isAdmin } = useAuth();
     <div className=' font-poppins bg-gray-100'>
       <BrowserRouter>
         <NavBar />
-
-
-
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
@@ -41,9 +39,8 @@ const { isAdmin } = useAuth();
           {/* Protected routes */}
           <Route path="/admin/products"  element={ isAdmin ? <ProductAdminPage/>  :<ForbiddenPage  />  } />
           <Route path="/admin/orders" element={ isAdmin ? <OrdersPage/>  :<ForbiddenPage />  } />
-  
-          
-          
+          <Route path="/admin" element={ isAdmin ? <AdminPage/>  :<ForbiddenPage />  } />
+
           <Route path="/forbidden" element={<ForbiddenPage />} />
           {/* 404 route */}
           <Route path="*" element={<NotFound />} />
