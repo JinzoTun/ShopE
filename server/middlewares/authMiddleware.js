@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import BlackListedToken from '../models/blackListedToken.js';
 
-const requireAuth = async (req, res) => {
+const requireAuth = async (req, res, next) => {
     try {
         const token = req.headers.jwt;
         if (!token) {
@@ -11,18 +11,17 @@ const requireAuth = async (req, res) => {
         if (blackListedToken) {
             return res.status(401).json({ message: 'You are not authorized' });
         }
-        if (!blackListedToken) {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = decoded;
-            if (req.user) {
-                return res.status(200).json({ message: 'You are authenticated', decoded });
-            }
-            else {
-                res.status(401).json({ error: 'You are not authenticated' });
-            }
-        }
-    }
-    catch (error) {
+
+        // Verify the token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        // Attach the user object to the request
+        req.user = decoded;
+
+        // Proceed to the next middleware or route handler
+        next();
+    } catch (error) {
+        // Handle token verification errors
         return res.status(401).json({ message: error.message });
     }
 }
