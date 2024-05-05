@@ -18,6 +18,7 @@ const Login = () => {
       console.log(response.data);
       Cookies.set('jwt', response.data.token, { expires: 7 });
       navigate('/shop');
+      window.location.reload();
 
     } catch (error) {
       console.error('Error logging in:', error);

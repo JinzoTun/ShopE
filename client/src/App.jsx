@@ -11,6 +11,7 @@ import NotFound from './pages/NotFound';
 import AdminPage from './pages/admin/AdminPage';
 import OrdersPage from './pages/admin/OrdersPage';
 import ProductAdminPage from './pages/admin/ProductAdminPage';
+import Users from './pages/admin/Users';
 
 // auth pages
 import Login from './pages/Auth/Login';
@@ -40,7 +41,8 @@ const { isAdmin } = useAuth();
           <Route path="/admin/products"  element={ isAdmin ? <ProductAdminPage/>  :<ForbiddenPage  />  } />
           <Route path="/admin/orders" element={ isAdmin ? <OrdersPage/>  :<ForbiddenPage />  } />
           <Route path="/admin" element={ isAdmin ? <AdminPage/>  :<ForbiddenPage />  } />
-
+          <Route path="/admin/users" element={ isAdmin ? <Users/>  :<ForbiddenPage />  } />
+          {/* 403 route */} 
           <Route path="/forbidden" element={<ForbiddenPage />} />
           {/* 404 route */}
           <Route path="*" element={<NotFound />} />

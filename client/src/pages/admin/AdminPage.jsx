@@ -13,6 +13,10 @@ const AdminPage = () => {
           <img src="/products.svg" alt="Products" className="h-16 w-16 mb-4" />
           Products
         </Link>
+        <Link to="/admin/users" className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-6 px-12 rounded-lg shadow-lg transition duration-300">
+          <img src="/users.svg" alt="Users" className="h-16 w-16 mb-4" />
+          Users
+        </Link>
       </div>
     </div>
   );

@@ -38,8 +38,9 @@ const Profile = () => {
             <button className="bg-red-500 text-white px-4 py-2 rounded mt-4" onClick={
               () => {
                 cookies.remove('jwt');
-                window.location.reload();
                 navigate('/login');
+                window.location.reload();
+
               }
             
             }>Logout</button>
