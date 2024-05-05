@@ -10,7 +10,7 @@ const AdminPage = () => {
           Orders
         </Link>
         <Link to="/admin/products" className="bg-green-500 hover:bg-green-600 text-white font-semibold py-6 px-12 rounded-lg shadow-lg transition duration-300">
-          <img src="products.svg" alt="Products" className="h-16 w-16 mb-4" />
+          <img src="/products.svg" alt="Products" className="h-16 w-16 mb-4" />
           Products
         </Link>
       </div>

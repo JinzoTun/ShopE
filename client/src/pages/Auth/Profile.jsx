@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import {useAuth} from '../../context/useAuth';
+import { useNavigate } from 'react-router-dom';
 import cookies from 'js-cookie';
 
 const Profile = () => {
-  const  { user } = useAuth();
+  const  { user , isAdmin } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     if (user) {
@@ -37,9 +39,20 @@ const Profile = () => {
               () => {
                 cookies.remove('jwt');
                 window.location.reload();
+                navigate('/login');
               }
             
             }>Logout</button>
+            {isAdmin && (
+              <div>
+                <p className="mt-4 text-red-500">Admin Access</p>
+                <button className="bg-red-500 text-white px-4 py-2 rounded mt-4" onClick={
+                  () => {
+                    window.location.href = '/admin';
+                  }
+                }>Admin Dashboard</button>
+              </div>
+            )}
 
           </div>
         ) : (

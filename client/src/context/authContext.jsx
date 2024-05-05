@@ -15,48 +15,52 @@ export const AuthProvider = ({ children }) => {
         name: '',
         email: '',
     });
+   
     
     useEffect(() => {
         const fetchUser = async () => {
-        try {
-            const storedToken = Cookies.get('jwt');
-    
-            const authResponse = await axios.get(`${import.meta.env.VITE_SERVER}/api/auth`, {
-            headers: {
-                jwt: storedToken,
-            },
-            });
-    
-            if (authResponse.status === 200) {
-            setIsAuth(true);
-            setUser(authResponse.data.decoded);
-            setIsLoggedIn(true);
-    
-            const adminResponse = await axios.get(`${import.meta.env.VITE_SERVER}/api/auth/admin`, {
-                headers: {
-                jwt: storedToken,
-                },
-            });
-    
-            if (adminResponse.status === 200) {
-                setIsAdmin(adminResponse.data.decoded.isAdmin);
-                setIsLoggedIn(true);
-            } else {
-                setIsAdmin(false);
+            try {
+                const storedToken = Cookies.get('jwt');
+        
+                const authResponse = await axios.get(`${import.meta.env.VITE_SERVER}/api/auth`, {
+                    headers: {
+                        jwt: storedToken,
+                    },
+                });
+        
+                if (authResponse.status === 200) {
+                    setIsAuth(true);
+                    setUser(authResponse.data.User);
+                    setIsLoggedIn(true);
+        
+                    const adminResponse = await axios.get(`${import.meta.env.VITE_SERVER}/api/auth/admin`, {
+                        headers: {
+                            jwt: storedToken,
+                        },
+                    });
+        
+                    if (adminResponse.status === 200) {
+                        setIsAdmin(adminResponse.data.User.isAdmin);
+                        setIsLoggedIn(true);
+                    } else {
+                        setIsAdmin(false);
+                    }
+                } else {
+                    setIsAuth(false);
+                }
+            } catch (error) {
+                setError(error);
+                setIsLoggedIn(false);
+            } finally {
+                setIsLoading(false);
             }
-            } else {
-            setIsAuth(false);
-            }
-        } catch (error) {
-            setError(error);
-            setIsLoggedIn(false);
-        } finally {
-            setIsLoading(false);
-        }
         };
     
-        fetchUser();
-    }, []);
+        // Only fetch user if not already authenticated
+        if (!isAuth) {
+            fetchUser();
+        }
+    }, [isAuth]);
     
     return (
         <AuthContext.Provider value={{ isAuth, isAdmin, isLoading, error, isLoggedIn, user }}>

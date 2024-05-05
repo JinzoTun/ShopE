@@ -53,7 +53,7 @@ DropdownMenu.propTypes = {
 };
 
 const NavBar = () => {
-  const { isAdmin, isAuth } = useAuth();
+  const { isAuth, isLoading } = useAuth();
   const { countItems } = useCart();
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
@@ -72,6 +72,13 @@ const NavBar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Ensure authentication status is fetched when component mounts
+    if (!isLoading) {
+      setShowMenu(false); // Close the menu when authentication status is fetched
+    }
+  }, [isLoading]);
+
   const toggleMenu = (event) => {
     event.stopPropagation(); // Stop event propagation to prevent the dropdown from closing immediately
     setShowMenu(!showMenu); // Toggle the showMenu state directly
@@ -80,6 +87,11 @@ const NavBar = () => {
   const closeMenu = () => {
     setShowMenu(false);
   };
+
+  if (isLoading) {
+    // Optional: You can render a loading indicator while authentication status is being fetched
+    return <div>Loading...</div>;
+  }
 
   return (
     <nav className="flex justify-between items-center w-full h-[70px] fixed bg-white text-black shadow-sm" role="navigation">
@@ -95,19 +107,15 @@ const NavBar = () => {
         <Link to="/cart" className="p-4 hover:underline underline-offset-8">Cart ({countItems})</Link>
       </div>
       <div className="pr-8 md:block hidden">
-        {isAuth ? (
+        {isAuth  ? (
           <Link to="/profile" className="p-4 hover:underline underline-offset-8">Profile</Link>
-        ) : (
+                  ) : (
           <Link to="/login" className="p-4 hover:underline underline-offset-8">Login</Link>
         )}
-        {isAdmin && (
-          <Link to="/admin" className="p-4 hover:underline underline-offset-8">Admin</Link>
-        )}
       </div>
- 
-
     </nav>
   );
 };
+
 
 export default NavBar;

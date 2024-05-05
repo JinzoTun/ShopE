@@ -11,15 +11,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_SERVER}/api/users/login`, { email, password });
       console.log(response.data);
       Cookies.set('jwt', response.data.token, { expires: 7 });
       navigate('/shop');
+
     } catch (error) {
       console.error('Error logging in:', error);
       setError('Invalid email or password. Please try again.');
+      window.location.reload();
     }
   };
 
