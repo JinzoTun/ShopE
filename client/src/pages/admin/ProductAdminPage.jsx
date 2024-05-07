@@ -1,6 +1,7 @@
 // components/ProductAdminPage.js
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const ProductAdminPage = () => {
@@ -102,7 +103,11 @@ const ProductAdminPage = () => {
 
     return (
         <div className="container mx-auto py-8 min-h-screen">
-            <h1 className="text-5xl  mb-10 mt-20">Admin Panel</h1>
+            <Link to="/admin" className="flex items-center text-blue-500 hover:text-blue-700 mt-20 mb-4"> 
+                <ArrowBackIcon className="h-5 w-5 mr-1" />
+                Back to Admin Page
+            </Link>
+            <h1 className="text-4xl mb-10 ">Products admin Panel</h1>
             <div className="mb-8">
                 <h2 className="text-xl font-semibold mb-2">Add New Product</h2>
                 <div className="flex flex-wrap">

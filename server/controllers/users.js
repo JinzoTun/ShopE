@@ -17,20 +17,27 @@ export const register = async (req, res) => {
         if (password.length < 6) {
             return res.status(400).json({ message: 'Password must be at least 6 characters long' });
         }
-        // check if the name is at least 3 characters long
-        if (name.length < 3) {
+        // check if the name is at least 3 characters long and not empty and not only spaces 
+        if (name.length < 3 || name.trim() === '') {
             return res.status(400).json({ message: 'Name must be at least 3 characters long' });
         }
+        // check if the name has no special characters 
+        const nameRegEx = /^[a-zA-Z0-9_ ]*$/;
+        if (!nameRegEx.test(name)) {
+            return res.status(400).json({ message: 'Name must not contain special characters' });
+        }
+
         // check if the email is valid 
         const emailRegEx = /\S+@\S+\.\S+/;
         if (!emailRegEx.test(email)) {
             return res.status(400).json({ message: 'Invalid email' });
         }
-        // check if password has at least one letter and one number
-        const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+        // check if password has at least one letter and one number and one special character 
+        const passwordRegEx = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
         if (!passwordRegEx.test(password)) {
-            return res.status(400).json({ message: 'Password must contain at least one letter and one number' });
+            return res.status(400).json({ message: 'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character' });
         }
+
         // hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
         // create a new user

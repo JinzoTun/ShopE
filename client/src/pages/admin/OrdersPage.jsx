@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const OrdersPage = () => {
     const [orders, setOrders] = useState([]);
@@ -42,7 +44,11 @@ const OrdersPage = () => {
 
     return (
         <div className="container mx-auto p-6 min-h-screen">
-            <h1 className="text-5xl mb-10 mt-20">Orders</h1>
+            <Link to="/admin" className="flex items-center text-blue-500 hover:text-blue-700 mt-20 mb-4"> 
+                <ArrowBackIcon className="h-5 w-5 mr-1" />
+                Back to Admin Page
+            </Link>
+            <h1 className="text-4xl mb-10 ">Orders admin Panel</h1>
             <div className="grid gap-6 lg:grid-cols-2">
                 {orders.map(order => (
                     <div key={order._id} className="bg-white shadow-md rounded-lg overflow-hidden">
