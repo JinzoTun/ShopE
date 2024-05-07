@@ -8,24 +8,47 @@ export const register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
-        // Check if the email already exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
+        // Check if the email exists
+        const userExists = await User.findOne({ email });
+        if (userExists) {
             return res.status(400).json({ message: 'User already exists' });
         }
-
-        // Hash the password
+        // check if the password is at least 6 characters long
+        if (password.length < 6) {
+            return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+        }
+        // check if the name is at least 3 characters long
+        if (name.length < 3) {
+            return res.status(400).json({ message: 'Name must be at least 3 characters long' });
+        }
+        // check if the email is valid 
+        const emailRegEx = /\S+@\S+\.\S+/;
+        if (!emailRegEx.test(email)) {
+            return res.status(400).json({ message: 'Invalid email' });
+        }
+        // check if password has at least one letter and one number
+        const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+        if (!passwordRegEx.test(password)) {
+            return res.status(400).json({ message: 'Password must contain at least one letter and one number' });
+        }
+        // hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Create a new user
-        const newUser = new User({ name, email, password: hashedPassword });
-        await newUser.save();
-
+        // create a new user
+        const user = await User.create({ name, email, password: hashedPassword });
+        // generate a JWT token
+        const token = jwt.sign({
+            userId: user._id,
+            email: user.email,
+            name: user.name,
+            isAdmin: user.isAdmin,
+        }, process.env.JWT_SECRET, { expiresIn: '1d' });
         res.status(201).json({ message: 'User created successfully', token });
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: error.message });
     }
-};
+}
+
+
 
 export const login = async (req, res) => {
     try {
