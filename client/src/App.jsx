@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route  } from 'react-router-dom';
 import {useAuth} from './context/useAuth';
 import Loader from './components/Loader';
 // pages 
@@ -7,6 +7,7 @@ import Shop from './pages/Home/Shop';
 import Contact from './pages/Home/Contact';
 import Cart from './pages/Home/Cart';
 import NotFound from './pages/Home/NotFound';
+
 
 //admin pages
 import AdminPage from './pages/admin/AdminPage';
@@ -33,6 +34,7 @@ const { isAdmin , isLoading} = useAuth();
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
+
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
