@@ -10,7 +10,6 @@ export const AuthProvider = ({ children }) => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState({
         name: '',
         email: '',
@@ -31,7 +30,7 @@ export const AuthProvider = ({ children }) => {
                 if (authResponse.status === 200) {
                     setIsAuth(true);
                     setUser(authResponse.data.User);
-                    setIsLoggedIn(true);
+
         
                     const adminResponse = await axios.get(`${import.meta.env.VITE_SERVER}/api/auth/admin`, {
                         headers: {
@@ -41,7 +40,7 @@ export const AuthProvider = ({ children }) => {
         
                     if (adminResponse.status === 200) {
                         setIsAdmin(adminResponse.data.User.isAdmin);
-                        setIsLoggedIn(true);
+
                     } else {
                         setIsAdmin(false);
                     }
@@ -50,7 +49,7 @@ export const AuthProvider = ({ children }) => {
                 }
             } catch (error) {
                 setError(error);
-                setIsLoggedIn(false);
+
             } finally {
                 setIsLoading(false);
             }
@@ -63,7 +62,7 @@ export const AuthProvider = ({ children }) => {
     }, [isAuth]);
     
     return (
-        <AuthContext.Provider value={{ isAuth, isAdmin, isLoading, error, isLoggedIn, user }}>
+        <AuthContext.Provider value={{ isAuth, isAdmin, isLoading, error, user }}>
         {children}
         </AuthContext.Provider>
     );

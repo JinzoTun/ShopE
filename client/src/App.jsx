@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {useAuth} from './context/useAuth';
+import Loader from './components/Loader';
 // pages 
 import Home from './pages/Home/Index';
 import Shop from './pages/Home/Shop';
 import Contact from './pages/Home/Contact';
 import Cart from './pages/Home/Cart';
-import NotFound from './pages/NotFound';
+import NotFound from './pages/Home/NotFound';
 
 //admin pages
 import AdminPage from './pages/admin/AdminPage';
@@ -24,7 +25,7 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 
 export default function App() {
-const { isAdmin } = useAuth();
+const { isAdmin , isLoading} = useAuth();
   return (
     <div className=' font-poppins bg-gray-100'>
       <BrowserRouter>
@@ -40,7 +41,13 @@ const { isAdmin } = useAuth();
           {/* Protected routes */}
           <Route path="/admin/products"  element={ isAdmin ? <ProductAdminPage/>  :<ForbiddenPage  />  } />
           <Route path="/admin/orders" element={ isAdmin ? <OrdersPage/>  :<ForbiddenPage />  } />
-          <Route path="/admin" element={ isAdmin ? <AdminPage/>  :<ForbiddenPage />  } />
+          <Route path="/admin" element=  {isLoading ? 
+          <Loader />:
+          
+          isAdmin ? 
+            <AdminPage />: 
+            <ForbiddenPage />
+        } />
           <Route path="/admin/users" element={ isAdmin ? <Users/>  :<ForbiddenPage />  } />
           {/* 403 route */} 
           <Route path="/forbidden" element={<ForbiddenPage />} />

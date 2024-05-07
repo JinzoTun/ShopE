@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useCart } from "../context/useCart";
 import { useAuth } from "../context/useAuth";
 import PropTypes from "prop-types";
+import { Skeleton } from "@mui/material";
 
 const DropdownMenu = ({ countItems, onClose }) => {
   const dropdownRef = useRef(null);
@@ -88,11 +89,6 @@ const NavBar = () => {
     setShowMenu(false);
   };
 
-  if (isLoading) {
-    // Optional: You can render a loading indicator while authentication status is being fetched
-    return <div>Loading...</div>;
-  }
-
   return (
     <nav className="flex justify-between items-center w-full h-[70px] fixed bg-white text-black shadow-sm" role="navigation">
       <Link to="/" className="pl-8 text-lg font-semibold">shopE</Link>
@@ -107,15 +103,17 @@ const NavBar = () => {
         <Link to="/cart" className="p-4 hover:underline underline-offset-8">Cart ({countItems})</Link>
       </div>
       <div className="pr-8 md:block hidden">
-        {isAuth  ? (
-          <Link to="/profile" className="p-4 hover:underline underline-offset-8">Profile</Link>
-                  ) : (
-          <Link to="/login" className="p-4 hover:underline underline-offset-8">Login</Link>
-        )}
+        {isLoading ? 
+        <div className="bg-white"><Skeleton></Skeleton>  </div>:
+          
+          isAuth ? 
+            <Link to="/profile" className="p-4 hover:underline underline-offset-8 transition duration-300 ease-in-out">Profile</Link> : 
+            <Link to="/login" className="p-4 hover:underline underline-offset-8 transition duration-300 ease-in ">Login</Link>
+        }
+
       </div>
     </nav>
   );
 };
-
 
 export default NavBar;
