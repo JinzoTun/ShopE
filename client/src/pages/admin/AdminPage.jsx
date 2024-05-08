@@ -6,8 +6,8 @@ const AdminPage = () => {
   const { isLoading } = useAuth();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-4xl mb-8 mt-20">Admin Dashboard</h1>
+    <div className="flex flex-col items-center justify-start min-h-screen bg-gray-100">
+      <h1 className="text-4xl mb-8 mt-36">Admin Dashboard</h1>
       {isLoading ? (
         // Skeleton loading effect while data is loading
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">

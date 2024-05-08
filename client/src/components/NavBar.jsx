@@ -91,7 +91,7 @@ const NavBar = () => {
 
   return (
     <nav className="flex justify-between items-center w-full h-[70px] fixed bg-white text-black shadow-sm" role="navigation">
-      <Link to="/" className="pl-8 text-lg font-semibold">shopE</Link>
+      <Link to="/" className="ml-8 text-lg font-semibold"><img src="/shope.png" alt="" width={110}  /></Link>
       <div className="px-4 cursor-pointer md:hidden" onClick={toggleMenu} ref={menuRef}>
         <Menu />
       </div>
@@ -108,7 +108,9 @@ const NavBar = () => {
           
           isAuth ? 
             <Link to="/profile" className="p-4 hover:underline underline-offset-8 transition duration-300 ease-in-out">Profile</Link> : 
-            <Link to="/login" className="p-4 hover:underline underline-offset-8 transition duration-300 ease-in ">Login</Link>
+            
+            <Link to="/login" className="border-2  border-black  rounded-full  p-2 px-4 bg-gray-950 text-white hover:bg-white hover:text-black" >Login</Link> 
+          
         }
 
       </div>
