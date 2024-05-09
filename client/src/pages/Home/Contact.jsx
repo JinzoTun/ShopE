@@ -81,14 +81,8 @@ const ContactPage = () => {
           <div className="mb-4">
             {/* Replace the iframe src with your Google Map embed code */}
             <div className="aspect-w-16 aspect-h-9">
-              <iframe
-                src="https://www.google.com/maps/place/Tunisia/@33.5829594,-0.5225072,6z/data=!3m1!4b1!4m6!3m5!1s0x125595448316a4e1:0x3a84333aaa019bef!8m2!3d33.886917!4d9.537499!16zL20vMDdmal8?hl=en&entry=ttu"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-              ></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d102454.66354208332!2d10.088825877755787!3d36.80649432160168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4ea3c6bdf96e7%3A0x46c3bf3c6d86a7d!2sTunis%2C%20Tunisia!5e0!3m2!1sen!2sus!4v1620576033360!5m2!1sen!2sus" width="600" height="300"  allowfullscreen="" loading="lazy"></iframe>
+
             </div>
           </div>
         </div>

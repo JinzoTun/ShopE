@@ -34,7 +34,7 @@ const Profile = () => {
               className="bg-red-500 text-white px-4 py-2 rounded mt-4 w-full"
               onClick={() => {
                 cookies.remove('jwt');
-                navigate('/login');
+                navigate('/');
                 window.location.reload();
               }}
             >

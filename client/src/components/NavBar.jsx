@@ -24,7 +24,7 @@ const DropdownMenu = ({ countItems, onClose }) => {
   }, [onClose]);
 
   return (
-    <div ref={dropdownRef} className="absolute top-full right-2 mt-2">
+    <div ref={dropdownRef} className="absolute top-full right-2 mt-2 text-black">
       <div className="bg-white border rounded-md shadow-lg overflow-hidden">
         <ul className="py-1">
           <li className="transition duration-300 ease-in-out hover:bg-gray-100">
@@ -88,19 +88,46 @@ const NavBar = () => {
   const closeMenu = () => {
     setShowMenu(false);
   };
+  const [isScrolledDown, setIsScrolledDown] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      const scrollThreshold = 5; // Adjust this value as needed
+      const scrollDifference = Math.abs(prevScrollPos - currentScrollPos);
+
+      if (scrollDifference > scrollThreshold) {
+        setIsScrolledDown(prevScrollPos > currentScrollPos);
+        setPrevScrollPos(currentScrollPos);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [prevScrollPos]);
+
 
   return (
-    <nav className="flex justify-between items-center w-full h-[70px] fixed bg-white text-black shadow-sm" role="navigation">
-      <Link to="/" className="ml-8 text-lg font-semibold"><img src="/shope.png" alt="" width={110}  /></Link>
+    <nav  className="z-50 flex justify-between items-center text-white fixed gap-4 text-center m-auto h-[70px] bg-blue-500 w-full"   style={{ 
+      position: 'fixed', 
+      top: isScrolledDown ? '0' : '-100px', 
+      
+      transition: 'top 0.4s' 
+    }} >
+      <Link to="/" className="ml-8 text-lg  font-bold">ShopE</Link>
       <div className="px-4 cursor-pointer md:hidden" onClick={toggleMenu} ref={menuRef}>
         <Menu />
       </div>
       {showMenu && <DropdownMenu countItems={countItems} onClose={closeMenu} />}
       <div className="pr-4 md:block hidden">
-        <Link to="/" className="p-4 hover:underline underline-offset-8">Home</Link>
-        <Link to="/shop" className="p-4 hover:underline underline-offset-8">Shop</Link>
-        <Link to="/contact" className="p-4 hover:underline underline-offset-8">Contact</Link>
-        <Link to="/cart" className="p-4 hover:underline underline-offset-8">Cart ({countItems})</Link>
+        <Link to="/" className="p-4 hover:underline underline-offset-8 font-semibold">Home</Link>
+        <Link to="/shop" className="p-4 hover:underline underline-offset-8 font-semibold">Shop</Link>
+        <Link to="/contact" className="p-4 hover:underline underline-offset-8 font-semibold">Contact</Link>
+        <Link to="/cart" className="p-4 hover:underline underline-offset-8 font-semibold">Cart ({countItems})</Link>
       </div>
       <div className="pr-8 md:block hidden">
         {isLoading ? 
@@ -109,7 +136,9 @@ const NavBar = () => {
           isAuth ? 
             <Link to="/profile" className="p-4 hover:underline underline-offset-8 transition duration-300 ease-in-out">Profile</Link> : 
             
-            <Link to="/login" className="border-2  border-black  rounded-full  p-2 px-4 bg-gray-950 text-white hover:bg-white hover:text-black" >Login</Link> 
+          
+            
+            <Link to="/login" className="border-2  border-black  rounded-md  p-2 px-4 bg-white text-black hover:bg-black hover:text-white" >Login</Link> 
           
         }
 

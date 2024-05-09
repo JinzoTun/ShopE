@@ -28,29 +28,29 @@ import Footer from './components/Footer';
 export default function App() {
 const { isAdmin , isLoading} = useAuth();
   return (
-    <div className=' font-poppins bg-gray-100'>
+    <div className=' font-mono bg-gray-100'>
       <BrowserRouter>
-        <NavBar />
+        
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />
+          <Route path="/" element={<><NavBar /><Home /></>} />
+          <Route path="/shop" element={<><NavBar /><Shop /></>} />
 
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/contact" element={<><NavBar /><Contact /></>} />
+          <Route path="/cart" element={<><NavBar /><Cart /></>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<><NavBar /><Profile /></>} />
           {/* Protected routes */}
-          <Route path="/admin/products"  element={ isAdmin ? <ProductAdminPage/>  :<ForbiddenPage  />  } />
-          <Route path="/admin/orders" element={ isAdmin ? <OrdersPage/>  :<ForbiddenPage />  } />
+          <Route path="/admin/products"  element={ isAdmin ? <><NavBar /><ProductAdminPage /></>  :<ForbiddenPage  />  } />
+          <Route path="/admin/orders" element={ isAdmin ? <><NavBar /><OrdersPage /></>  :<ForbiddenPage />  } />
           <Route path="/admin" element=  {isLoading ? 
           <Loader />:
           
           isAdmin ? 
-            <AdminPage />: 
+          <><NavBar /><AdminPage /></>: 
             <ForbiddenPage />
         } />
-          <Route path="/admin/users" element={ isAdmin ? <Users/>  :<ForbiddenPage />  } />
+          <Route path="/admin/users" element={ isAdmin ? <><NavBar /><Users /></>  :<ForbiddenPage />  } />
           {/* 403 route */} 
           <Route path="/forbidden" element={<ForbiddenPage />} />
           {/* 404 route */}

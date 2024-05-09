@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import loginImage from '/login.jpg'; // Import your login image here
 
 const Login = () => {
@@ -30,10 +31,18 @@ const Login = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100 ">
+
       <div className="flex w-full   ">
-        <div className="w-1/2 flex mt-18">
+        
+        <div className="lg:w-1/2 w-full flex mt-18">
+    
           <form className="  shadow-md  w-full h-full flex flex-col items-center justify-center" onSubmit={handleSubmit}>
+          <Link to="/" className=" animate-bounce self-start top-0 left-4 absolute text-blue-500 hover:text-blue-800 mt-10 mb-4"> 
+                <ArrowBackIcon />
+                Go back
+            
+            </Link>
             <h1 className="text-2xl font-semibold m-4">Login</h1>
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <div className="mb-4 w-1/2">
@@ -70,7 +79,7 @@ const Login = () => {
             {/* Add Forgot Password link if applicable */}
           </form>
         </div>
-        <div className="w-1/2">
+        <div className="w-1/2 hidden lg:block ">
           <img src={loginImage} alt="Login" className="w-full h-full object-cover" />
         </div>
       </div>

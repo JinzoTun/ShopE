@@ -67,7 +67,7 @@ const ProductCard = ({ searchQuery, filterOption }) => {
             />
             <div className="p-4">
               <h2 className="text-sm h-10 font-semibold mb-2">{product.name}</h2>
-              <a href={`/${product._id}`} className="text-sm text-blue-500" style={{ textDecoration: 'none' }}>
+              <a href={`/${product._id}`} className="text-sm font-semibold text-red-500" style={{ textDecoration: 'none' }}>
                 {product.description} <span className="text-gray-500 ml-1 text-sm">&rarr;</span>
               </a>
               <div className="flex justify-between items-center mt-4">
@@ -76,7 +76,7 @@ const ProductCard = ({ searchQuery, filterOption }) => {
                   <p className="text-xs"> <b>{product.countInStock}</b> left in stock</p>
                 </div>
                 <button
-                  className="text-base bg-red-500 text-white p-2 rounded hover:bg-red-600 transition-colors"
+                  className="text-base bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors"
                   onClick={() => handleAddToCart(product)}
                 >
                   Add to cart

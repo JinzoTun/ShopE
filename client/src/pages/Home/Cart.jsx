@@ -1,4 +1,4 @@
-import emptyCartImg from '../../../public/cart.jpg'; 
+import emptyCartImg from '/cart.jpg'; 
 import { useCart } from '../../context/useCart';
 import { Link } from "react-router-dom";
 import axios from 'axios';
