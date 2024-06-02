@@ -1,11 +1,9 @@
-// src/components/ProductDetail.jsx
-
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCart } from '../context/useCart';
 import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import io from 'socket.io-client';
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -14,7 +12,25 @@ const ProductDetail = () => {
   const [error, setError] = useState(null);
   const [selectedColor, setSelectedColor] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [viewerCount, setViewerCount] = useState(0); // New state for viewer count
   const { addItemToCart } = useCart();
+
+  useEffect(() => {
+    const socket = io(`${import.meta.env.VITE_SERVER}`); // Connect to WebSocket server
+
+    socket.on('connect', () => {
+      console.log('Connected to WebSocket server');
+    });
+
+    socket.on('viewerCount', (count) => {
+      setViewerCount(count);
+    });
+
+    // Clean up WebSocket connection on component unmount
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_SERVER}/api/products/${productId}`)
@@ -75,7 +91,7 @@ const ProductDetail = () => {
             <p className="text-lg text-gray-700 mb-4">{product.description}</p>
             <p className="text-lg font-bold">${product.price}</p>
             <p className="text-sm text-gray-500 mb-4">{product.countInStock} left in stock</p>
-            
+            <div>Current Viewers: {viewerCount}</div> {/* Display viewer count */}
             {product.colors && product.colors.length > 0 && (
               <div className="mb-4">
                 <label className="block text-sm font-semibold mb-2">Color</label>
