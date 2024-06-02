@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Schema } from "mongoose";
+const { Schema } = mongoose;
 
 const productSchema = new Schema({
     name: {
@@ -22,12 +22,14 @@ const productSchema = new Schema({
         type: String,
         required: true,
     },
-
+    colors: {
+        type: [String], // Add the colors field as an array of strings
+        default: [],    // Default to an empty array if no colors are provided
+    },
 },
     {
         timestamps: true,
-    }
-);
+    });
 
 const Product = mongoose.model("Product", productSchema);
 

@@ -24,6 +24,7 @@ import ForbiddenPage from './pages/Auth/ForbiddenPage';
 // components
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
+import ProductDetail from './components/ProductDetail';
 
 export default function App() {
 const { isAdmin , isLoading} = useAuth();
@@ -34,6 +35,7 @@ const { isAdmin , isLoading} = useAuth();
         <Routes>
           <Route path="/" element={<><NavBar /><Home /></>} />
           <Route path="/shop" element={<><NavBar /><Shop /></>} />
+          <Route path="/product/:productId" element={<ProductDetail />} />
 
           <Route path="/contact" element={<><NavBar /><Contact /></>} />
           <Route path="/cart" element={<><NavBar /><Cart /></>} />
