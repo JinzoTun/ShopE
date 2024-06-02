@@ -35,7 +35,7 @@ const { isAdmin , isLoading} = useAuth();
         <Routes>
           <Route path="/" element={<><NavBar /><Home /></>} />
           <Route path="/shop" element={<><NavBar /><Shop /></>} />
-          <Route path="/product/:productId" element={<ProductDetail />} />
+          <Route path="/product/:productId" element={<><NavBar /><ProductDetail /></>} />
 
           <Route path="/contact" element={<><NavBar /><Contact /></>} />
           <Route path="/cart" element={<><NavBar /><Cart /></>} />

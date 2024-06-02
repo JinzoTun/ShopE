@@ -3,6 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCart } from '../context/useCart';
+import { Link } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -30,7 +33,7 @@ const ProductDetail = () => {
       })
       .catch((error) => {
         console.error('Error fetching product details:', error);
-        setError('Failed to fetch product details. Please try again later.');
+        setError('Failed to fetch product details. Product may not exist.');
         setLoading(false);
       });
   }, [productId]);
@@ -47,20 +50,24 @@ const ProductDetail = () => {
   };
 
   if (loading) {
-    return <div className="text-center">Loading...</div>;
+    return <div className="text-center mt-20">Loading...</div>;
   }
 
   if (error) {
-    return <div className="text-center text-red-500">{error}</div>;
+    return <div className="text-center text-red-500 mt-20 min-h-screen">{error}</div>;
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="bg-white rounded-md shadow-md overflow-hidden">
+    <div className="container mx-auto p-4 min-h-screen">
+      <div className="bg-white rounded-md shadow-md overflow-hidden mt-16">
+        <Link to="/shop" className="flex items-center absolute text-xl text-blue-500 hover:text-blue-700 "> 
+                <ArrowBackIcon className="h-5 w-5 mr-1" />
+                Shop
+        </Link>
         <div className="flex flex-col lg:flex-row">
           <img
             src={product.imageUrl}
-            className="w-full lg:w-1/2 h-72 lg:h-auto object-cover"
+            className="w-full lg:w-1/2 h-72 lg:h-full object-cover"
             alt={product.name}
           />
           <div className="p-4 lg:w-1/2">
