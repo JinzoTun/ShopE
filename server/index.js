@@ -1,9 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import cors from 'cors'; // Import CORS middleware
-import http from 'http';
+import cors from 'cors';
 import { Server } from 'socket.io';
+import { createServer } from 'node:http';
 import productsRoutes from './routes/products.routes.js';
 import ordersRoutes from './routes/orders.routes.js';
 import userRoutes from './routes/user.routes.js';
@@ -13,7 +13,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
-const server = http.createServer(app);
+const server = createServer(app);
 const io = new Server(server, {
     cors: {
         origin: '*',
@@ -41,16 +41,17 @@ app.use('*', (req, res) => {
     res.status(404).json({ error: 'Not found' });
 });
 
+let viewerCount = 0;
+
 io.on('connection', (socket) => {
     console.log('A user connected');
-
-    setInterval(() => {
-        const viewerCount = Math.floor(Math.random() * 100);
-        socket.emit('viewerCount', viewerCount);
-    }, 5000);
+    viewerCount++;
+    io.emit('viewerCount', viewerCount);
 
     socket.on('disconnect', () => {
         console.log('User disconnected');
+        viewerCount--;
+        io.emit('viewerCount', viewerCount);
     });
 });
 
