@@ -13,12 +13,11 @@ const Profile = () => {
   const handleLogout = () => {
     // send token to server to blacklist
     axios
-      .get("/api/auth/logout", {
+      .get(`${import.meta.env.VITE_SERVER}/api/users/logout`, {
         headers: {
-          jwt: `Bearer ${cookies.get("jwt")}`,
+          jwt: cookies.get("jwt"),
         },
       })
-
       .then(() => {
         cookies.remove("jwt");
         navigate("/");
